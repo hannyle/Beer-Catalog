@@ -1,0 +1,57 @@
+
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+header > input{margin: 2em 3em 3em 4em; width: 30em; height: 2em; padding: 0.3em;}
+header > select{width: 15em; height: 2em;}
+
+.beer {
+  box-sizing: border-box;
+  text-align: center;
+  margin-left: 4em;
+  margin-bottom: 2em;
+  box-shadow: 1px 1px 5px gray;
+}
+.beer::after{
+  content: "";
+  clear: both;
+  display: table;
+}
+.beer:focus, .beer:hover{cursor: pointer;}
+.beer img{
+  display: block;
+  width: 4em;
+  height: 10em; 
+  margin: 1em auto; 
+}
+h5{text-align:center}
+.text{
+  font-size: 0.8em;
+}
+.btn{font-size: 0.8em; margin: 1em auto 1em 3em;}
+.this-beer{width: 60%; box-shadow: 1px 1px 5px gray; margin: 1em auto; padding: 1em}
+.beer-img{width: 10%; display: block; margin: 2em auto;}
+.beer-desc{width: 70%; margin: 3em auto}
