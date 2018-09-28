@@ -1,59 +1,70 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Switch} from 'react-router-dom';
-import Beer from './Beers';
 
-class Home extends React.Component {
+class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
           originalBeers: [],
           beers: [],
           inputSearch: '',
-          filterValue: ''     
+          filterValue: '',
+          itemsToShow: 9,
+          expanded: false    
         }
       }
       fetchBeer = () => {
         fetch('https://api.punkapi.com/v2/beers')
         .then(res => res.json())
-        .then(resData => {     
-          this.setState({
-            originalBeers: resData,
-            beers: resData
-          })
+        .then(resData => {
+          if(this.props.location.state !== undefined){
+            let searchBeer = resData;
+            searchBeer = searchBeer.filter(beer =>{         
+              return beer.name.toLowerCase().search(this.props.location.state.storeValue.toLowerCase()) !== -1;        
+            });
+            this.setState({
+              originalBeers: resData, 
+              beers: searchBeer, 
+              inputSearch: this.props.location.state.storeValue
+            });
+          }
+          else{
+            let arr = []
+            for(let i = 0; i<resData.length; i++){
+              arr.push(resData[i]);
+            }
+            this.setState({
+              originalBeers: resData,
+              beers: arr
+            });
+          }
         })
       }
 
       componentDidMount = () => {
-        this.fetchBeer();          
+        this.fetchBeer();        
       }
-    
-      handleSearch = (e) => {
+      
+      handleSearch = (e) => {       
         this.setState({inputSearch: e.target.value}); 
         let inputLen = e.target.value.length;
-        let searchBeer = this.state.originalBeers;
+        let searchBeer = this.state.beers;
         if(inputLen > 0){
           searchBeer = searchBeer.filter(beer =>{         
             return beer.name.toLowerCase().search(e.target.value.toLowerCase()) !== -1;        
           });
           this.setState({beers: searchBeer});
-        }else{      
-          this.setState({beers: this.state.originalBeers});      
         }
-      }
-    
-      chooseFilter = () => {
-        const beer = this.state.beers.map(beer => beer);
-        return beer;
-      }
-    
+        else{      
+          this.setState({beers: [...this.state.originalBeers]});      
+        }       
+      }       
+     
       alphabetFilter = () => {
-        const alphaBeer = this.state.beers;
-        alphaBeer.sort((a,b)=>(a.name.localeCompare(b.name)));    
+        this.state.beers.sort((a,b)=>(a.name.localeCompare(b.name)));
       }
     
-      latestToOld = () => {
-        const latestBeer = this.state.beers;
-        latestBeer.sort((a, b) => {     
+      latestToOld = () => {        
+        this.state.beers.sort((a, b) => {     
           let yearA = parseInt(a.first_brewed.slice(3),10);
           let yearB = parseInt(b.first_brewed.slice(3), 10);
           if(yearA !== yearB){
@@ -66,9 +77,8 @@ class Home extends React.Component {
         });
       }
     
-      OldestToLate = () =>{
-        const latestBeer = this.state.beers;
-        latestBeer.sort((a, b) => {     
+      OldestToLate = () =>{        
+        this.state.beers.sort((a, b) => {     
           let yearA = parseInt(a.first_brewed.slice(3),10);
           let yearB = parseInt(b.first_brewed.slice(3), 10);
           if(yearA !== yearB){
@@ -82,12 +92,13 @@ class Home extends React.Component {
       }
 
       noFilter= () =>{
-           this.fetchBeer();
+        this.setState({beers: [...this.state.originalBeers]});
       }
     
       handleFilter = (e) => {
         this.setState({filterValue: e.target.value});
-        switch (e.target.value){
+        const text = "some errors";
+        switch (e.target.value){          
           case "alphabet":
             this.alphabetFilter();
             break;
@@ -99,15 +110,26 @@ class Home extends React.Component {
            break;
           case "choose":
            this.noFilter();
+           break;
+          default:
+           return text;
         }    
       }
 
       handleNavigate = (id) => {        
-          this.props.history.push("/beer/" + id);        
+          this.props.history.push({
+            pathname: "/beer/" + id,
+            state: {searchValue : this.state.inputSearch}
+          });   
       }
     
+      showMore = () => {
+        this.state.itemsToShow === 9 ? 
+          (this.setState({itemsToShow: this.state.beers.length, expanded: true})) : (this.setState({itemsToShow: 9, expanded: false}))
+      }
+
       render() {
-        const beerList = this.state.beers.map(beer => (      
+        const beerList = this.state.beers.slice(0, this.state.itemsToShow).map(beer => (      
             <div className="col-sm-3 beer" key={beer.id} onClick={()=>{this.handleNavigate(beer.id)}}>         
               <img src={beer.image_url} alt="beer_image"/> 
               <h5>{beer.name}</h5>                        
@@ -120,7 +142,7 @@ class Home extends React.Component {
             <header>
               <input type="text" id="myInput" onChange={this.handleSearch} value={this.state.inputSearch} placeholder="Search"/>
               <select value={this.state.filterValue} onChange={this.handleFilter}>
-                <option value="choose">Filter by</option>
+                <option value="choose">Sort by</option>
                 <option value="alphabet">Alphabet</option>
                 <option value="latest">Latest production date</option>
                 <option value="oldest">Oldest production date</option>
@@ -129,7 +151,10 @@ class Home extends React.Component {
             <div className="container-fluid">                 
                 <div className="row">
                     {beerList}                
-                </div>        
+                </div>
+                <a className="show-more" onClick={this.showMore}>
+                  {this.state.expanded ? (<span>Show less</span>) : (<span>Show more</span>)}
+                </a>        
             </div>         
           </div>
         );

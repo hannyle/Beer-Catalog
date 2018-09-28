@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
-import createHistory from "history/createBrowserHistory";
 
-class Beer extends React.Component {
+class Beer extends Component {
   constructor(props){
     super(props);
     this.state = {thisBeer: []}
   }
     navigateHome = () =>{        
-        this.props.history.push("/home");
+      this.props.history.push({
+        pathname: "/home",
+        state: {storeValue : this.props.location.state.searchValue}
+      });        
     }
 
-    componentDidMount = () => {
-      
+    componentDidMount = () => {      
       fetch('https://api.punkapi.com/v2/beers/' +  this.props.match.params.id)
       .then(res => res.json())
       .then(resData => {
         this.setState({
           thisBeer: resData[0]
         });  
-      })
-      
+      })       
     }
+
   render() {    
     return (
       <div>        

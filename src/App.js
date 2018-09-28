@@ -4,18 +4,15 @@ import Beer from './components/Beers';
 import Home from './components/Home';
 import './App.css';
 
-class App extends React.Component {
+class App extends Component {
   render(){
     return(
       <div className="App">
-      <BrowserRouter>
-       
-         
+      <BrowserRouter>       
           <Switch>
             <Route path="/home" component={Home}/>
             <Route path={"/beer/:id"} component={Beer}/>
-          </Switch>
-        
+          </Switch>        
       </BrowserRouter>
     </div>
     );    
