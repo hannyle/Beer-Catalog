@@ -7,9 +7,9 @@ import './App.css';
 class App extends Component {
   render(){
     return(
-      <div className="App">
-      <BrowserRouter>       
-          <Switch>
+      <div>
+      <BrowserRouter>                 
+          <Switch>            
             <Route path="/home" component={Home}/>
             <Route path={"/beer/:id"} component={Beer}/>
           </Switch>        

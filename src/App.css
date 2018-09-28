@@ -1,6 +1,13 @@
-header > input{margin: 2em 3em 3em 4em; width: 30em; height: 2em; padding: 0.3em;}
-header > select{width: 15em; height: 2em;}
-
+header > input{
+  margin: 2em 3em 3em 4em; 
+  width: 30em;
+  height: 2em;
+  padding: 0.3em;
+}
+header > select{
+  width: 15em;
+  height: 2em;
+}
 .beer {
   box-sizing: border-box;
   text-align: center;
@@ -23,9 +30,31 @@ h5{text-align:center}
 .text{
   font-size: 0.8em;
 }
-a.show-more {display: block; width: 10%; margin: 1em auto 2em auto; background: pink; text-align:center; padding: 5px 10px; border-radius: 5px;}
-.show-more:focus, .show-more:hover,.beer:focus, .beer:hover{cursor: pointer;}
+/*Show more button*/
+a.show-more {
+  display: block; 
+  width: 10%; 
+  margin: 1em auto 2em auto; 
+  background: pink; 
+  text-align:center; 
+  padding: 5px 10px; 
+  border-radius: 5px;
+}
+.show-more:focus, 
+.show-more:hover,
+.beer:focus, 
+.beer:hover{cursor: pointer;}
+
 .btn{font-size: 0.8em; margin: 1em auto 1em 3em;}
-.this-beer{width: 60%; box-shadow: 1px 1px 5px gray; margin: 1em auto; padding: 1em}
-.beer-img{width: 10%; display: block; margin: 2em auto;}
-.beer-desc{width: 70%; margin: 3em auto}
+.this-beer{
+  width: 60%; 
+  box-shadow: 1px 1px 5px gray; 
+  margin: 1em auto; 
+  padding: 1em}
+.beer-img{
+  width: 10%; 
+  display: block; 
+  margin: 2em auto;}
+.beer-desc{
+  width: 70%; 
+  margin: 3em auto}

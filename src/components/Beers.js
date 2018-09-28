@@ -5,22 +5,22 @@ class Beer extends Component {
     super(props);
     this.state = {thisBeer: []}
   }
-    navigateHome = () =>{        
-      this.props.history.push({
-        pathname: "/home",
-        state: {storeValue : this.props.location.state.searchValue}
-      });        
-    }
+  navigateHome = () =>{        
+    this.props.history.push({
+      pathname: "/home",
+      state: {storeValue : this.props.location.state.searchValue}
+    });        
+  }
 
-    componentDidMount = () => {      
-      fetch('https://api.punkapi.com/v2/beers/' +  this.props.match.params.id)
-      .then(res => res.json())
-      .then(resData => {
-        this.setState({
-          thisBeer: resData[0]
-        });  
-      })       
-    }
+  componentDidMount = () => {      
+    fetch('https://api.punkapi.com/v2/beers/' +  this.props.match.params.id)
+    .then(res => res.json())
+    .then(resData => {
+      this.setState({
+        thisBeer: resData[0]
+      });  
+    })       
+  }
 
   render() {    
     return (
