@@ -12,7 +12,7 @@ class App extends Component {
       <BrowserRouter>                 
           <Switch>            
             <Route path="/home" component={Home}/>
-            <Redirect from="/" to="/home"/>
+            <Redirect exact from="/" to="/home"/>
             <Route path={"/beer/:id"} component={Beer}/>
           </Switch>        
       </BrowserRouter>
